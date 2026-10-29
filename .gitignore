@@ -6,3 +6,6 @@ out/
 public/images/optimized/
 .sites-source/
 .vercel/
+
+.vercel
+.env*

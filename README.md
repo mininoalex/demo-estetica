@@ -56,16 +56,26 @@ Las duraciones admiten múltiplos de 15 minutos entre 15 y 240. Cada reserva con
 - Completar reseñas verificadas, equipo real y mapa al contar con la dirección.
 - Pagos, WhatsApp automático y reservas reales están fuera del alcance solicitado.
 - Se implementan etiquetas, navegación por teclado, foco visible, enlace para saltar al contenido, contraste de textos, estados accesibles y reducción de movimiento. La conformidad WCAG AA requiere una auditoría manual completa con lectores de pantalla y dispositivos reales.
-- Se desactiva la indexación con metadatos `noindex, nofollow` y `robots.txt`. `_headers` añade también `X-Robots-Tag` en alojamientos que admiten ese archivo.
-- La demo se publica como una exportación estática de Next.js en Sites. No requiere servidor de reservas ni servicios pagos. `npm.cmd run build` genera `out/`; no se utiliza `next start` con esta modalidad.
+- Se desactiva la indexación con metadatos `noindex, nofollow`, `robots.txt` y la cabecera HTTP `X-Robots-Tag` configurada en `vercel.json`.
+- La demo se publica como una exportación estática de Next.js en Vercel. No requiere servidor de reservas ni servicios adicionales pagos. `npm.cmd run build` genera `out/`; no se utiliza `next start` con esta modalidad.
 
 ## Demo publicada y actualizaciones
 
-Enlace estable: https://body-aesthetics-demo.dewyloon13.chatgpt.site
+Enlace estable: https://demo-estetica-neon.vercel.app
 
-El identificador del alojamiento está en `.openai/hosting.json`. El código continúa en GitHub: https://github.com/mininoalex/demo-estetica.
+Panel de demostración: https://demo-estetica-neon.vercel.app/admin/
 
-Para cambiar la demo: editar el código, ejecutar `npm.cmd test` y `npm.cmd run build`, subir el commit a GitHub y solicitar en esta conversación que se publique la nueva versión en el mismo Site. El enlace permanece igual. **Un push a GitHub no publica automáticamente en Sites**: todavía no se configuró esa integración. Las credenciales temporales de publicación se obtienen con la integración de Sites y nunca se guardan en el repositorio.
+Proyecto de Vercel: `alex-minino/demo-estetica`. El código está en https://github.com/mininoalex/demo-estetica. Los archivos locales `.vercel/` y `.env.local` están excluidos de Git.
+
+Para actualizar: editar el código, ejecutar `npm.cmd test` y `npm.cmd run build`, hacer commit y push a GitHub y publicar desde esta carpeta con:
+
+```powershell
+npm.cmd exec --yes --package=vercel -- vercel deploy --prod --scope alex-minino
+```
+
+El enlace estable conserva el mismo dominio. **La publicación automática desde GitHub queda pendiente de autorización**: Vercel rechazó la conexión porque su integración aún no tiene acceso al repositorio `mininoalex/demo-estetica`. Para habilitarla, abrir https://vercel.com/alex-minino/demo-estetica/settings/git, seleccionar «Connect Git Repository», autorizar GitHub con `mininoalex` y conceder acceso al repositorio. Una vez conectado con `main` como rama de producción, cada push a esa rama podrá desplegarse automáticamente.
+
+Existe una publicación anterior de la demo en Sites; `.openai/hosting.json` conserva su identidad para evitar duplicarla por accidente. El enlace principal que se comparte con la clienta es el de Vercel indicado arriba.
 
 `prebuild` genera variantes WebP locales de 320, 640, 960 y 1600 píxeles con Sharp. El componente `next/image` utiliza un loader estático que selecciona la variante adecuada; no depende de un optimizador remoto ni de un servicio pago. Los originales se conservan para compatibilidad con tratamientos guardados previamente en el navegador.
 
