@@ -18,7 +18,6 @@ Abrir http://127.0.0.1:3000 (también http://localhost:3000). Panel: http://127.
 npm.cmd test
 npm.cmd run typecheck
 npm.cmd run build
-npm.cmd start
 ```
 
 Node.js 24 recomendado. Se incluye `package-lock.json`; para reinstalaciones reproducibles usar `npm.cmd ci`.
@@ -57,7 +56,20 @@ Las duraciones admiten múltiplos de 15 minutos entre 15 y 240. Cada reserva con
 - Completar reseñas verificadas, equipo real y mapa al contar con la dirección.
 - Pagos, WhatsApp automático y reservas reales están fuera del alcance solicitado.
 - Se implementan etiquetas, navegación por teclado, foco visible, enlace para saltar al contenido, contraste de textos, estados accesibles y reducción de movimiento. La conformidad WCAG AA requiere una auditoría manual completa con lectores de pantalla y dispositivos reales.
-- Se desactiva la indexación mientras sea un prototipo. No se publicó ni desplegó.
+- Se desactiva la indexación con metadatos `noindex, nofollow` y `robots.txt`. `_headers` añade también `X-Robots-Tag` en alojamientos que admiten ese archivo.
+- La demo se publica como una exportación estática de Next.js en Sites. No requiere servidor de reservas ni servicios pagos. `npm.cmd run build` genera `out/`; no se utiliza `next start` con esta modalidad.
+
+## Demo publicada y actualizaciones
+
+Enlace estable: https://body-aesthetics-demo.dewyloon13.chatgpt.site
+
+El identificador del alojamiento está en `.openai/hosting.json`. El código continúa en GitHub: https://github.com/mininoalex/demo-estetica.
+
+Para cambiar la demo: editar el código, ejecutar `npm.cmd test` y `npm.cmd run build`, subir el commit a GitHub y solicitar en esta conversación que se publique la nueva versión en el mismo Site. El enlace permanece igual. **Un push a GitHub no publica automáticamente en Sites**: todavía no se configuró esa integración. Las credenciales temporales de publicación se obtienen con la integración de Sites y nunca se guardan en el repositorio.
+
+`prebuild` genera variantes WebP locales de 320, 640, 960 y 1600 píxeles con Sharp. El componente `next/image` utiliza un loader estático que selecciona la variante adecuada; no depende de un optimizador remoto ni de un servicio pago. Los originales se conservan para compatibilidad con tratamientos guardados previamente en el navegador.
+
+Los datos de `localStorage` pertenecen a cada navegador y dominio. Los turnos creados en localhost no se transfieren al dominio publicado, y tampoco se comparten con otra persona o dispositivo. Actualizar la web mantiene los turnos existentes en el mismo navegador salvo que se borren sus datos. El panel `/admin/` es una herramienta pública de demostración y solo modifica el almacenamiento del visitante.
 
 ## Imágenes
 
